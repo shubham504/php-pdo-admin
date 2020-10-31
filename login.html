@@ -1,0 +1,99 @@
+<html>
+<head>
+<style>
+#login,#signup{
+width: 300px; border: 1px solid #d6d7da; 
+padding: 0px 15px 15px 15px; 
+border-radius: 5px;font-family: arial; 
+line-height: 16px;color: #333333; font-size: 14px; 
+background: #ffffff;rgba(200,200,200,0.7) 0 4px 10px -1px
+}
+#login{margin: auto;}
+
+h3{color:#365D98}
+form label{font-weight: bold;}
+form label, form input{display: block;margin-bottom: 5px;width: 90%}
+form input{ 
+border: solid 1px #666666;padding: 10px;
+border: solid 1px #BDC7D8; margin-bottom: 20px
+}
+.button {
+background-color: #5fcf80 ;
+border-color: #3ac162;
+font-weight: bold;
+padding: 12px 15px;
+max-width: 100px;
+color: #ffffff;
+}
+#maind1 {
+    width: 100%;
+    float: left;
+    margin: 0;
+    display: inline-flex;
+}
+
+
+.errorMsg{color: #cc0000;margin-bottom: 10px}
+
+</style>
+<script src="../js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+$(function()
+{
+	$('#log-in').click(function(event){
+
+		event.preventDefault();
+
+		$.post('signin.php',$('#log-in-form').serialize(),function(resp)
+		{
+			if (resp['status'] == true)
+			{
+				location.href = "index.html";
+			}
+			else
+			{
+				var htm = '<button data-dismiss="alert" class="close" type="button">×</button>';
+				$.each(resp['msg'],function(index,val){
+					htm += val+" <br>";
+					});
+				$("#error-msg").html(htm);
+				$("#error-msg").show();	
+				$(this).prop('disabled',false);
+			}
+		},'json');
+	});
+});
+
+
+	</script>
+
+</head>
+<body>
+<div class="maindiv" id="main1">
+<div id="login">
+<h3>Login</h3> <form class="myform"  name="log-in-form"  id="log-in-form" method="post">
+               
+<label>Username or Email</label>
+<input type="text" name="username" id="username" autocomplete="off" />
+<label>Password</label>
+<input type="password" name="password" id="password" autocomplete="off"/>
+
+<button class="button btn btn-success btn-large" id="log-in">Log In</button>
+	
+			
+			<div class="login-fields">
+</form>
+<div class="alert" id="error-msg">
+            
+           </div>
+           
+           <div class="alert alert-success" id="success-msg">
+            
+          </div>
+</div>
+</div>
+</body>
+</html>
